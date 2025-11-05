@@ -126,11 +126,11 @@ const Cake = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto space-y-8">
           {/* Header */}
-          <div className="text-center space-y-4 animate-fade-in">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          <div className="text-center space-y-3 md:space-y-4 animate-fade-in px-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Slice the Birthday Cake! 🎂
             </h1>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground">
               {isCut ? "Beautiful cut! 🎉" : "Swipe down to cut the cake!"}
             </p>
           </div>
@@ -148,7 +148,7 @@ const Cake = () => {
               onTouchEnd={handleTouchEnd}
             >
               {/* Cake Image Container */}
-              <div className="relative w-full h-64 md:h-96 overflow-hidden">
+              <div className="relative w-full h-72 sm:h-80 md:h-96 lg:h-[28rem] overflow-hidden">
                 {/* Left Half */}
                 <div 
                   className="absolute inset-0 transition-all duration-700 ease-out"
@@ -199,15 +199,15 @@ const Cake = () => {
                 {/* Birthday Message - Shows immediately when cut */}
                 {isCut && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md animate-fade-in z-10">
-                    <div className="text-center space-y-6 p-6">
-                      <div className="text-6xl md:text-8xl animate-bounce-slow">🎉</div>
-                      <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent drop-shadow-2xl animate-scale-in">
+                    <div className="text-center space-y-3 sm:space-y-4 md:space-y-6 p-4 sm:p-6">
+                      <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl animate-bounce-slow">🎉</div>
+                      <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent drop-shadow-2xl animate-scale-in px-2">
                         Happy Birthday
                       </h2>
-                      <h3 className="text-3xl md:text-5xl font-bold text-white drop-shadow-2xl animate-float">
+                      <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-2xl animate-float px-2">
                         Jungli Billi! 🐱
                       </h3>
-                      <div className="flex gap-4 text-5xl justify-center animate-bounce-slow">
+                      <div className="flex gap-3 sm:gap-4 text-3xl sm:text-4xl md:text-5xl justify-center animate-bounce-slow">
                         ✨🎂🎈
                       </div>
                     </div>
@@ -222,9 +222,9 @@ const Cake = () => {
                 {/* Instruction Indicator */}
                 {!isCut && !isSwiping && (
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
-                    <div className="flex flex-col items-center gap-3 animate-bounce-slow">
-                      <div className="text-6xl">👇</div>
-                      <div className="bg-primary text-white font-bold text-lg px-6 py-3 rounded-full shadow-glow">
+                    <div className="flex flex-col items-center gap-2 sm:gap-3 animate-bounce-slow">
+                      <div className="text-4xl sm:text-5xl md:text-6xl">👇</div>
+                      <div className="bg-primary text-white font-bold text-sm sm:text-base md:text-lg px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-glow">
                         Swipe Down to Slice!
                       </div>
                     </div>
@@ -234,14 +234,14 @@ const Cake = () => {
             </div>
 
             {/* Controls */}
-            <div className="p-8 space-y-6">
+            <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
               {!isCut ? (
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   <div className="text-center space-y-2">
-                    <h3 className="text-2xl font-bold text-foreground">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground">
                       Ready to Cut? 🔪
                     </h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-sm sm:text-base text-muted-foreground px-2">
                       Swipe down across the cake to make your magical cut!
                     </p>
                   </div>
@@ -262,18 +262,18 @@ const Cake = () => {
                   )}
                 </div>
               ) : (
-                <div className="text-center space-y-6">
+                <div className="text-center space-y-4 sm:space-y-6">
                   <div className="space-y-2">
-                    <h3 className="text-2xl font-bold text-foreground">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground">
                       Perfect Slice! 🎉
                     </h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-sm sm:text-base text-muted-foreground px-2">
                       The cake has been cut! Ready for another celebration?
                     </p>
                   </div>
                   <Button 
                     size="lg"
-                    className="bg-gradient-to-r from-accent to-primary hover:shadow-glow transition-all duration-300"
+                    className="bg-gradient-to-r from-accent to-primary hover:shadow-glow transition-all duration-300 text-sm sm:text-base"
                     onClick={resetCake}
                   >
                     🎂 Get Another Cake!
@@ -284,8 +284,8 @@ const Cake = () => {
           </Card>
 
           {/* Fun Message */}
-          <Card className="bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/20 p-6 animate-fade-in">
-            <p className="text-center text-foreground font-medium">
+          <Card className="bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/20 p-4 sm:p-6 animate-fade-in">
+            <p className="text-center text-foreground font-medium text-sm sm:text-base px-2">
               🎈 Every slice brings more joy and celebration! 🎈
             </p>
           </Card>
