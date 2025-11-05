@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import Confetti from "@/components/Confetti";
 import cakeImage from "@/assets/birthday-cake.jpg";
 
@@ -31,12 +31,12 @@ const Cake = () => {
     if (!isSwiping) return;
     setIsSwiping(false);
     
-    if (swipeProgress > 0.6) {
+    // Lower threshold for easier slicing
+    if (swipeProgress > 0.4) {
       setIsCut(true);
       setShowConfetti(true);
-      toast({
-        title: "🎉 Perfect Cut!",
-        description: "You've sliced the birthday cake!",
+      toast.success("🎉 Happy Birthday Jungli Billi! 🐱", {
+        description: "Perfect cake slice!",
       });
       setTimeout(() => setShowConfetti(false), 4000);
     } else {
@@ -47,11 +47,9 @@ const Cake = () => {
   const resetCake = () => {
     setIsCut(false);
     setSwipeProgress(0);
+    setIsSwiping(false);
     setShowConfetti(false);
-    toast({
-      title: "🎂 Fresh Cake Ready!",
-      description: "Let's celebrate again!",
-    });
+    toast.info("🎂 Fresh Cake Ready! Swipe down to slice it again!");
   };
 
   // Mouse events
@@ -131,9 +129,9 @@ const Cake = () => {
               <div className="relative w-full h-64 md:h-96 overflow-hidden">
                 {/* Left Half */}
                 <div 
-                  className="absolute inset-0 transition-transform duration-500"
+                  className="absolute inset-0 transition-all duration-700 ease-out"
                   style={{
-                    transform: isCut ? 'translateX(-20%)' : 'translateX(0)',
+                    transform: isCut ? 'translateX(-25%) rotate(-5deg)' : 'translateX(0)',
                     clipPath: 'polygon(0 0, 50% 0, 50% 100%, 0 100%)',
                   }}
                 >
@@ -147,9 +145,9 @@ const Cake = () => {
 
                 {/* Right Half */}
                 <div 
-                  className="absolute inset-0 transition-transform duration-500"
+                  className="absolute inset-0 transition-all duration-700 ease-out"
                   style={{
-                    transform: isCut ? 'translateX(20%)' : 'translateX(0)',
+                    transform: isCut ? 'translateX(25%) rotate(5deg)' : 'translateX(0)',
                     clipPath: 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)',
                   }}
                 >
@@ -170,21 +168,26 @@ const Cake = () => {
                     }}
                   >
                     {/* Knife Handle */}
-                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gradient-to-b from-accent to-primary rounded-full shadow-lg" />
+                    <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 w-10 h-10 bg-gradient-to-b from-accent to-primary rounded-full shadow-lg flex items-center justify-center text-2xl">
+                      🔪
+                    </div>
                   </div>
                 )}
 
-                {/* Birthday Message */}
+                {/* Birthday Message - Shows immediately when cut */}
                 {isCut && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-primary/20 to-secondary/20 backdrop-blur-sm animate-fade-in">
-                    <div className="text-center space-y-4 p-6">
-                      <h2 className="text-3xl md:text-5xl font-bold text-white drop-shadow-lg animate-bounce-slow">
-                        🎉 Happy Birthday 🎉
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md animate-fade-in z-10">
+                    <div className="text-center space-y-6 p-6">
+                      <div className="text-6xl md:text-8xl animate-bounce-slow">🎉</div>
+                      <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent drop-shadow-2xl animate-scale-in">
+                        Happy Birthday
                       </h2>
-                      <h3 className="text-2xl md:text-4xl font-bold text-white drop-shadow-lg">
+                      <h3 className="text-3xl md:text-5xl font-bold text-white drop-shadow-2xl animate-float">
                         Jungli Billi! 🐱
                       </h3>
-                      <div className="text-4xl animate-float">✨🎂✨</div>
+                      <div className="flex gap-4 text-5xl justify-center animate-bounce-slow">
+                        ✨🎂🎈
+                      </div>
                     </div>
                   </div>
                 )}
@@ -196,12 +199,12 @@ const Cake = () => {
 
                 {/* Instruction Indicator */}
                 {!isCut && !isSwiping && (
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                    <div className="flex flex-col items-center gap-2 animate-bounce-slow">
-                      <div className="text-4xl">👇</div>
-                      <p className="text-white font-bold text-lg bg-primary/80 px-4 py-2 rounded-full">
-                        Swipe Down!
-                      </p>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
+                    <div className="flex flex-col items-center gap-3 animate-bounce-slow">
+                      <div className="text-6xl">👇</div>
+                      <div className="bg-primary text-white font-bold text-lg px-6 py-3 rounded-full shadow-glow">
+                        Swipe Down to Slice!
+                      </div>
                     </div>
                   </div>
                 )}
