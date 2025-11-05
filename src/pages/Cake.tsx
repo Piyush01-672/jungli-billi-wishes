@@ -11,28 +11,36 @@ const Cake = () => {
   const [swipeProgress, setSwipeProgress] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
   const cakeRef = useRef<HTMLDivElement>(null);
-  const [startY, setStartY] = useState(0);
+  const startYRef = useRef(0);
 
   const handleSwipeStart = (clientY: number) => {
     if (isCut) return;
+    console.log("Swipe started at Y:", clientY);
     setIsSwiping(true);
-    setStartY(clientY);
+    startYRef.current = clientY;
+    setSwipeProgress(0);
   };
 
   const handleSwipeMove = (clientY: number) => {
     if (!isSwiping || isCut || !cakeRef.current) return;
     
     const rect = cakeRef.current.getBoundingClientRect();
-    const progress = Math.min(Math.max((clientY - startY) / rect.height, 0), 1);
+    const deltaY = clientY - startYRef.current;
+    const progress = Math.min(Math.max(deltaY / (rect.height * 0.7), 0), 1);
+    
+    console.log("Swipe move - deltaY:", deltaY, "progress:", progress);
     setSwipeProgress(progress);
   };
 
   const handleSwipeEnd = () => {
     if (!isSwiping) return;
+    
+    console.log("Swipe ended with progress:", swipeProgress);
     setIsSwiping(false);
     
-    // Lower threshold for easier slicing
-    if (swipeProgress > 0.4) {
+    // Very low threshold - just need to swipe down a bit
+    if (swipeProgress > 0.3) {
+      console.log("Cake is being cut!");
       setIsCut(true);
       setShowConfetti(true);
       toast.success("🎉 Happy Birthday Jungli Billi! 🐱", {
@@ -40,11 +48,13 @@ const Cake = () => {
       });
       setTimeout(() => setShowConfetti(false), 4000);
     } else {
+      console.log("Swipe too short, resetting");
       setSwipeProgress(0);
     }
   };
 
   const resetCake = () => {
+    console.log("Resetting cake");
     setIsCut(false);
     setSwipeProgress(0);
     setIsSwiping(false);
@@ -86,16 +96,28 @@ const Cake = () => {
       const handleGlobalMouseUp = () => {
         handleSwipeEnd();
       };
+      const handleGlobalTouchMove = (e: TouchEvent) => {
+        if (e.touches[0]) {
+          handleSwipeMove(e.touches[0].clientY);
+        }
+      };
+      const handleGlobalTouchEnd = () => {
+        handleSwipeEnd();
+      };
       
       window.addEventListener('mousemove', handleGlobalMouseMove);
       window.addEventListener('mouseup', handleGlobalMouseUp);
+      window.addEventListener('touchmove', handleGlobalTouchMove, { passive: false });
+      window.addEventListener('touchend', handleGlobalTouchEnd);
       
       return () => {
         window.removeEventListener('mousemove', handleGlobalMouseMove);
         window.removeEventListener('mouseup', handleGlobalMouseUp);
+        window.removeEventListener('touchmove', handleGlobalTouchMove);
+        window.removeEventListener('touchend', handleGlobalTouchEnd);
       };
     }
-  }, [isSwiping, startY]);
+  }, [isSwiping, swipeProgress]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted pt-24 pb-12">
